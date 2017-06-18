@@ -39,7 +39,6 @@ public class RequestController {
 	@RequestMapping(value = "/booking/", method = RequestMethod.POST)
 	public Booking newBooking(@RequestBody Booking booking)
 	{
-		System.out.println("Inside POST - BOOKING");
 		bookingService.newBooking(booking);
 		return booking;
 	}
@@ -47,7 +46,8 @@ public class RequestController {
 	@RequestMapping(value = "/booking/{bookingId}", method = RequestMethod.PUT)
 	public Booking updateBooking(@PathVariable("bookingId") int bookingId, @RequestBody Booking booking)
 	{
-		return null;
+		Booking updatedBooking = bookingService.updateBooking(bookingId, booking);
+		return updatedBooking;
 	}
 	
 	

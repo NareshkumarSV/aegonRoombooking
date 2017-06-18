@@ -19,8 +19,6 @@ public class BookingServiceImpl implements BookingService{
 	@Override
 	public List<Booking> getBoookingByRoomId(int roomId) {
 	
-		System.out.println("Inside BookingServiceImpl.getBoookingByRoomId() " + roomId);
-		
 		List<Booking> alRoomBooking = new ArrayList<>();
 		
 		for(Booking booking : alBooking)
@@ -60,17 +58,34 @@ public class BookingServiceImpl implements BookingService{
 	@Override
 	public Booking newBooking(Booking booking) {
 		booking.setBookingId(alBooking.size() + 1);
-		
-		/*Booking newBook = new Booking(booking.getBookingId(), booking.getRoomId(), booking.getRoomType(),
-				booking.getCustId(), booking.getCustName(), booking.getFromDate(), booking.getToDate());*/
+		booking.setTotalCost(booking.getRoomType(), LocalDate.parse(booking.getFromDate()), LocalDate.parse(booking.getToDate()));
 		alBooking.add(booking);
 		return booking;
 	}
 
 	@Override
 	public Booking updateBooking(int bookingId, Booking booking) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Booking updatedBooking = new Booking();
+		
+		for(Booking findBooking : alBooking)
+		{
+			if(findBooking.getBookingId() == bookingId)
+			{
+				updatedBooking.setBookingId(bookingId);
+				updatedBooking.setCustId((booking.getCustId() != 0) ? booking.getCustId() : findBooking.getCustId());
+				updatedBooking.setCustName((booking.getCustName().equals(null)) ? findBooking.getCustName() : booking.getCustName());
+				updatedBooking.setFromDate((booking.getFromDate().equals(null)) ? findBooking.getFromDate() : booking.getFromDate());
+				updatedBooking.setRoomId((booking.getRoomId() != 0) ? booking.getRoomId() : findBooking.getRoomId());
+				updatedBooking.setRoomType((booking.getRoomType().equals(null)) ? findBooking.getRoomType() : booking.getRoomType());
+				updatedBooking.setToDate((booking.getToDate().equals(null)) ? findBooking.getToDate() : booking.getToDate());
+				updatedBooking.setTotalCost(updatedBooking.getRoomType(), LocalDate.parse(updatedBooking.getFromDate()), LocalDate.parse(updatedBooking.getToDate()));
+				
+				//updatedBooking = findBooking;
+				break;
+			}
+		}
+		return updatedBooking;
 	}
 
 	private static List<Booking> getAllBookings() {
@@ -79,9 +94,9 @@ public class BookingServiceImpl implements BookingService{
 		Booking book3 = new Booking(3, 3, "double", 1, "vimal", LocalDate.of(2017, 7, 20), LocalDate.of(2017, 7, 25));
 		Booking book4 = new Booking(4, 4, "double", 2, "vinoth", LocalDate.of(2017, 7, 20), LocalDate.of(2017, 7, 25));
 		Booking book5 = new Booking(5, 5, "double", 2, "vinoth", LocalDate.of(2017, 7, 20), LocalDate.of(2017, 7, 25));
-		Booking book6 = new Booking(6, 1, "single", 3, "ramesh", LocalDate.of(2017, 7, 20), LocalDate.of(2017, 7, 25));
-		Booking book7 = new Booking(7, 2, "single", 4, "dinesh", LocalDate.of(2017, 7, 20), LocalDate.of(2017, 7, 25));
-		Booking book8 = new Booking(8, 3, "double", 5, "suresh", LocalDate.of(2017, 7, 20), LocalDate.of(2017, 7, 25));
+		Booking book6 = new Booking(6, 1, "single", 3, "ramesh", LocalDate.of(2017, 7, 28), LocalDate.of(2017, 7, 29));
+		Booking book7 = new Booking(7, 2, "single", 4, "dinesh", LocalDate.of(2017, 7, 28), LocalDate.of(2017, 7, 29));
+		Booking book8 = new Booking(8, 3, "double", 5, "suresh", LocalDate.of(2017, 7, 28), LocalDate.of(2017, 7, 29));
 		
 		List<Booking> alBookings = new ArrayList<>();
 		
