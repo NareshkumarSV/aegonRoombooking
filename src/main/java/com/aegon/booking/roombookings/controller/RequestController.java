@@ -1,6 +1,8 @@
 package com.aegon.booking.roombookings.controller;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,14 +41,15 @@ public class RequestController {
 	}
 	
 	@RequestMapping(value = "/booking/{bookingId}", method = RequestMethod.PUT)
-	public BookingEntity updateBooking(@PathVariable("bookingId") Long bookingId, @RequestBody BookingEntity bookingEntity)
-	{
+	public BookingEntity updateBooking(@PathVariable("bookingId") Long bookingId,
+			@RequestBody BookingEntity bookingEntity) {
 		return bookingService.updateBooking(bookingId, bookingEntity);
 	}
 
-	@RequestMapping("/availability/from/{fromDate}/to/{toDate}")
-	public List<BookingEntity> getRoomAvailability(@PathVariable("fromDate") String fromDate, @PathVariable("toDate") int toDate)
-	{
-		return null;
+	@RequestMapping("/availability/from/{fromDate}/to/{toDate}/room/{roomId}")
+	public Map<LocalDate, String> getRoomAvailability(@PathVariable("fromDate") String fromDate,
+			@PathVariable("toDate") String toDate, @PathVariable("roomId") int roomId) {
+		
+		return bookingService.getRoomAvailability(fromDate, toDate, roomId);
 	}
 }

@@ -2,7 +2,9 @@ package com.aegon.booking.roombookings.service.implementation;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,9 +91,43 @@ public class BookingServiceImpl implements BookingService {
 	}
 	
 	@Override
-	public List<BookingEntity> getRoomAvailability() {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<LocalDate, String> getRoomAvailability(String fromDate, String toDate, int roomId) {
+
+		Map<LocalDate, String> roomAvailableStatus = new HashMap<>();
+		LocalDate fromRange = LocalDate.parse(fromDate);
+		LocalDate toRange = LocalDate.parse(toDate);
+		
+		if((fromRange.isEqual(toRange)) || (fromRange.isBefore(toRange)))
+		{
+			List<LocalDate> dateRange = new ArrayList<>();
+			
+			while ((fromRange.isEqual(toRange)) || (fromRange.isBefore(toRange))) {
+				dateRange.add(fromRange);
+				fromRange = fromRange.plusDays(1);
+			}
+			
+			List<BookingEntity> roomBookings = getBoookingByRoomId(roomId);
+			
+			for(BookingEntity bookingEntity : roomBookings)
+			{
+				for(int i=0; i<dateRange.size(); i++)
+				{
+					if(((LocalDate.parse(bookingEntity.getFromDate()).isEqual(dateRange.get(i))) || (LocalDate.parse(bookingEntity.getFromDate()).isBefore(dateRange.get(i))))
+							&& ((LocalDate.parse(bookingEntity.getToDate()).isEqual(dateRange.get(i))) || (LocalDate.parse(bookingEntity.getToDate()).isAfter(dateRange.get(i)))))
+					{
+						roomAvailableStatus.put(dateRange.get(i), "AVAILABLE");
+					}
+					else
+					{
+						roomAvailableStatus.put(dateRange.get(i), "UNAVAILABLE");
+					}
+				}
+			}
+			
+		}
+		
+		return roomAvailableStatus;
+		
 	}
 
 	
