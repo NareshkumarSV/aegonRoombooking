@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.joda.LocalDateParser;
 import org.springframework.stereotype.Service;
 
-import com.aegon.booking.roombookings.model.Booking;
 import com.aegon.booking.roombookings.model.BookingEntity;
 import com.aegon.booking.roombookings.repository.BookingEntityRepository;
 import com.aegon.booking.roombookings.service.BookingService;
