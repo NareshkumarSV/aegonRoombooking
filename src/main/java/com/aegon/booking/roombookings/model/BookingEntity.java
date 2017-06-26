@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.aegon.booking.roombookings.util.ApplicationConstants;
+
 @Entity
 public class BookingEntity {
 
@@ -19,8 +21,9 @@ public class BookingEntity {
 	private String roomType;
 	private int custId;
 	private String custName;
-	private String fromDate;
-	private String toDate;
+	private LocalDate fromDate;
+	private LocalDate toDate;
+	
 	private int totalCost;
 	
 	public Long getBookingId() {
@@ -63,19 +66,19 @@ public class BookingEntity {
 		this.custName = custName;
 	}
 
-	public String getFromDate() {
+	public LocalDate getFromDate() {
 		return fromDate;
 	}
 
-	public void setFromDate(String fromDate) {
+	public void setFromDate(LocalDate fromDate) {
 		this.fromDate = fromDate;
 	}
 
-	public String getToDate() {
+	public LocalDate getToDate() {
 		return toDate;
 	}
 
-	public void setToDate(String toDate) {
+	public void setToDate(LocalDate toDate) {
 		this.toDate = toDate;
 	}
 
@@ -90,16 +93,14 @@ public class BookingEntity {
 	public void costCalculation(String roomType, LocalDate fromDate, LocalDate toDate) {
 		int days = Period.between(fromDate, toDate).getDays();
 		int rate = 0;
-		if("single".equals(roomType))
+		if(ApplicationConstants.SINGLE.equals(roomType))
 		{
 			rate = 100;
 		}
-		else if("double".equals(roomType))
+		else if(ApplicationConstants.DOUBLE.equals(roomType))
 		{
 			rate = 200;
 		}
-			
-		//this.totalCost = days*rate;
 		setTotalCost(days * rate);
 	}
 }

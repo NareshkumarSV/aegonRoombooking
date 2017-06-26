@@ -5,6 +5,12 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.aegon.booking.roombookings.util.ApplicationConstants;
+/**
+ * 
+ * This class is used to configure In-memory DB - H2
+ *
+ */
 @Configuration
 public class ApplicationConfiguration {
 
@@ -12,7 +18,7 @@ public class ApplicationConfiguration {
 	ServletRegistrationBean h2Registration()
 	{
 		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new WebServlet());
-		servletRegistrationBean.addUrlMappings("/console/*");
+		servletRegistrationBean.addUrlMappings(ApplicationConstants.CONSOLE);
 		return servletRegistrationBean;
 	}
 }
