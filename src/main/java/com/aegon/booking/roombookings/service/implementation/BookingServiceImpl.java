@@ -1,3 +1,9 @@
+/**
+ * 
+ * @author Nareshkumar
+ * Classname: BookingServiceImpl
+ *
+ */
 package com.aegon.booking.roombookings.service.implementation;
 
 import java.time.LocalDate;
@@ -18,15 +24,29 @@ import com.aegon.booking.roombookings.repository.RoomEntityRepository;
 import com.aegon.booking.roombookings.service.BookingService;
 import com.aegon.booking.roombookings.util.ApplicationConstants;
 
+/**
+ * The Class BookingServiceImpl implements all the service methods 
+ * of BookingService, that handles the methods required for maintaining
+ * room booking application.
+ */
 @Service
 public class BookingServiceImpl implements BookingService {
 
+	/** The bookingEntityRepository used to handle DB operations of BookingEntity. */
 	@Autowired
 	BookingEntityRepository bookingEntityRepository;
 
+	/** The roomEntityRepository used to handle DB operations of RoomEntity. */
 	@Autowired
 	RoomEntityRepository roomEntityRepository;
 
+	/**
+	 * This method is used for creating a new booking.
+	 *
+	 * @param bookingEntity : post body of BookingEntity
+	 * @return BookingEntity: the new BookingEntity
+	 * @throws RoomBookingException : If request validation fails
+	 */
 	@Override
 	public BookingEntity newBooking(BookingEntity bookingEntity) throws RoomBookingException {
 
@@ -61,8 +81,15 @@ public class BookingServiceImpl implements BookingService {
 		return savedBooking;
 	}
 
+	/**
+	 * This method is used for retrieving the 
+	 * bookings based on the room id.
+	 *
+	 * @param roomId : the room id
+	 * @return List<BookingEntity>: the list of booking entity
+	 */
 	@Override
-	public List<BookingEntity> getBoookingByRoomId(int roomId) {
+	public List<BookingEntity> getBookingByRoomId(int roomId) {
 
 		List<BookingEntity> allBookings = getAllBookings();
 		List<BookingEntity> roomBookings = new ArrayList<>();
@@ -77,8 +104,15 @@ public class BookingServiceImpl implements BookingService {
 		return roomBookings;
 	}
 
+	/**
+	 * This method is used for retrieving the 
+	 * bookings based on the customer id.
+	 *
+	 * @param custId : the customer id
+	 * @return List<BookingEntity>: the list of booking entity
+	 */
 	@Override
-	public List<BookingEntity> getBoookingByCustId(int custId) {
+	public List<BookingEntity> getBookingByCustId(int custId) {
 
 		List<BookingEntity> allBookings = getAllBookings();
 		List<BookingEntity> customerBookings = new ArrayList<>();
@@ -93,6 +127,15 @@ public class BookingServiceImpl implements BookingService {
 		return customerBookings;
 	}
 
+	/**
+	 * This method is used for updating the existing 
+	 * booking.
+	 *
+	 * @param bookingId : the booking to be updated
+	 * @param bookingEntity : post body of BookingEntity
+	 * @return BookingEntity: the updated BookingEntity
+	 * @throws RoomBookingException : If request validation fails
+	 */
 	@Override
 	public BookingEntity updateBooking(Long bookingId, BookingEntity bookingEntity) throws RoomBookingException {
 
@@ -166,6 +209,15 @@ public class BookingServiceImpl implements BookingService {
 		return savedBooking;
 	}
 
+	/**
+	 * This method is used for retrieving the 
+	 * availability of specific room within the provided range of period.
+	 *
+	 * @param fromDate : fromdate
+	 * @param toDate : todate
+	 * @param roomId : Id of room
+	 * @return Map : availability of room
+	 */
 	@Override
 	public Map<LocalDate, String> getRoomAvailability(LocalDate fromDate, LocalDate toDate, int roomId) {
 
@@ -194,11 +246,23 @@ public class BookingServiceImpl implements BookingService {
 		return new TreeMap<LocalDate, String>(roomAvailableStatus);
 	}
 
+	/**
+	 * This method is used to retrieve all the available bookings from the repository
+	 *
+	 * @return List<BookingEntity> : list of all the bookings
+	 */
 	private List<BookingEntity> getAllBookings() {
 		List<BookingEntity> allBookings = bookingEntityRepository.findAll();
 		return allBookings;
 	}
 
+	/**
+	 * This method is used to validate the input details provided for booking.
+	 *
+	 * @param bookingEntity the booking entity
+	 * @return true, if successful
+	 * @throws RoomBookingException : the room booking exception if validation fails
+	 */
 	private boolean validateBookingDetails(BookingEntity bookingEntity) throws RoomBookingException {
 		if ((bookingEntity != null) && (bookingEntity.getRoomId() != 0) && (bookingEntity.getRoomType() != null)
 				&& (bookingEntity.getCustId() != 0) && (bookingEntity.getCustName() != null)

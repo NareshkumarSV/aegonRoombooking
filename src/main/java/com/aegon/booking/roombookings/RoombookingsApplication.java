@@ -1,9 +1,17 @@
+/**
+ * 
+ * @author Nareshkumar
+ * Classname: RoombookingsApplication
+ *
+ */
 package com.aegon.booking.roombookings;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-/*
- * Main class to initiate the application
+
+/**
+ * The Class RoombookingsApplication is the main class to initiate the 
+ * application.
  */
 @SpringBootApplication
 public class RoombookingsApplication {
